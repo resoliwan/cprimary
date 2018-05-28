@@ -13,7 +13,7 @@ int main() {
   cout << "Enter a word: ";
   cin >> word;
 
-  for (int i = 0, j = word.size() - 1; j < i; i++, j--) {
+  for (int j = 0, i = word.size() - 1; j < i; ++j, --i) {
     temp = word[i];
     word[i] = word[j];
     word[j] = temp;
