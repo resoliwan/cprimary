@@ -32,21 +32,6 @@ Stock::~Stock()
   std::cout << "Bye, " << company << "!\n";
 }
 
-void Stock::acquire(const std::string & co, long n, double pr) 
-{
-  company = co;
-  if (n < 0) 
-  {
-    std::cout << "Number of shares can't be nagative." 
-      << company << " shares set to 0.\n";
-    shares = 0;
-  }
-  else
-    shares = n;
-  share_val = pr;
-  set_tot();
-}
-
 void Stock::buy(long num, double price)
 {
   if (num < 0)
