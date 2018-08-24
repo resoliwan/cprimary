@@ -1,6 +1,5 @@
 #ifndef STACK_H_
 #define STACK_H_
-
 typedef unsigned long Item;
 
 class Stack 
@@ -12,7 +11,7 @@ private:
 public:
   Stack();
   ~Stack();
-  void push(const Item & item);
+  bool push(const Item & item);
   bool pop(Item & item);
   bool isempty() const;
   bool isfull() const;
