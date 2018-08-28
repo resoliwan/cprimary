@@ -28,6 +28,7 @@ int main()
   total.Show();
 
   total = coding * 2;
+  // total = coding.operator*(2);
   cout << "coing * 2 = ";
   total.Show();
 
