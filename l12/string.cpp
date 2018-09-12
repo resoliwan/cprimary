@@ -92,7 +92,7 @@ std::ostream & operator<<(std::ostream & os, const String & s)
   return os;
 }
 
-std::istream & operator>>(std::istream & is, const String & st)
+std::istream & operator>>(std::istream & is, String & st)
 {
   char temp[String::CINLIM];
   is.get(temp, String::CINLIM);
