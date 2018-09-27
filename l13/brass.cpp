@@ -1,7 +1,26 @@
 #include <iostream>
 #include "brass.h"
+#include <cmath>
 
 using std::cout;
+
+typedef std::ios_base::fmtflags format;
+typedef std::streamsize precis;
+format setFormat();
+void restore(format f, precis p);
+
+format setFormat() 
+{
+  return cout.setf(std::ios_base::fixed, std::ios_base::floatfield);
+}
+
+
+void restore(format f, precis p)
+{
+  cout.setf(f, std::ios_base::floatfield);
+  cout.precision(p);
+}
+
 
 BrassAccount::BrassAccount(const string & s, long an, double bal)
 {
@@ -12,22 +31,31 @@ BrassAccount::BrassAccount(const string & s, long an, double bal)
 
 void BrassAccount::Deposit(double amt)
 {
-  balance += amt;
+  if (amt < 0) 
+    cout << "Negaive deposit not allowed" << std::endl;
+  else
+    balance += amt;
 }
 
 void BrassAccount::Withdraw(double amt)
 {
-  double lefted = balance - amt;
-  if (lefted < 0)
-    cout << "Insufficient balance: " << -1 * lefted << "\n";
+  if (amt < 0)
+    cout << "Withdraw amount must be positive.\n";
+  else if (amt > balance)
+    cout << "Insufficient balance: " << (amt - balance) << "\n";
   else
-    balance = lefted;
+    balance -= amt;
 }
 
 void BrassAccount::ViewAcct() const
 {
+  format initailState = setFormat();
+  precis prec = cout.precision(3);
+  
   cout << "fullName: " << fullName << ", acctNum: " 
-    << acctNum << " , balance: " << balance;
+    << acctNum << " , balance: " << balance << std::endl;
+
+  restore(initailState, prec);
 }
 
 
@@ -35,6 +63,7 @@ BrassPlusAccount::BrassPlusAccount(const string & s, long an, double ml, double 
   : BrassAccount(s, an, ml)
 {
   maxLoan = ml;
+  owesBank = 0.0;
   rate = r;
 }
 
@@ -42,29 +71,34 @@ BrassPlusAccount::BrassPlusAccount(const BrassAccount & ba, double ml, double r)
   : BrassAccount(ba)
 {
   maxLoan = ml;
+  owesBank = 0.0;
   rate = r;
 }
 
 void BrassPlusAccount::Withdraw(double amt)
 {
   double bal = Balance();
-  double lefted = bal - amt;
-  if (lefted > 0) {
+  if (amt <= bal) {
     BrassAccount::Withdraw(amt);
   }
-  else
+  else if (amt <= bal + maxLoan - owesBank)
   {
-    double loan = lefted + maxLoan;
-    if (loan < maxLoan)
-      BrassAccount::Withdraw(amt);
+    double advanced = amt - bal;
+    BrassAccount::Withdraw(bal);
+    owesBank += advanced;
+  } else
+      cout << "Credit limit exceeded.\n";
 
-
-  }
-    balance = lefted;
 }
 
-void BrassAccount::ViewAcct() const
+void BrassPlusAccount::ViewAcct() const
 {
-  cout << "fullName: " << fullName << ", acctNum: " 
-    << acctNum << " , balance: " << balance;
+  format initailState = setFormat();
+  precis prec = cout.precision(3);
+  
+  BrassAccount::ViewAcct();
+  cout << "maxLoan: " << maxLoan << ", rate: " 
+    << rate << " , owesBank: " << owesBank << std::endl;
+
+  restore(initailState, prec);
 }
