@@ -8,6 +8,7 @@ class Base0
     int id;
   public:
     Base0(int i){ id = i; };
+    virtual ~Base0() { cout << "Base0 destoryed\n"; };
     virtual void Print(){
       cout << "Base0\n";
     };
@@ -17,6 +18,7 @@ class Derived0: public Base0
 {
   public:
     Derived0(int i): Base0(i) {};
+    virtual ~Derived0() { cout << "Derived0 destoryed\n"; };
     virtual void Print() { 
       cout << "Derived!\n"; 
     };
