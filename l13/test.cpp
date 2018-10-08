@@ -25,13 +25,13 @@ class Derived0: public Base0
 };
 
 int main() {
-  Base0 b0(1);
+  // Base0 b0(1);
   Derived0 d0(1);
 
-  Base0 * b0p = &b0;
+  // Base0 * b0p = &b0;
   Base0 * d0p = &d0;
 
-  b0p->Print();
+  // b0p->Print();
   d0p->Print();
 
   return 0;
