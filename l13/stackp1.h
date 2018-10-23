@@ -8,7 +8,7 @@ template <typename Type>
 class Stack
 {
 public:
-  explicit Stack (int s);
+  Stack (int s = 1);
   Stack (const Stack & s);
   ~Stack () { delete [] items; };
   bool isempty() const { return top == 0; };
