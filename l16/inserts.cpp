@@ -24,7 +24,7 @@ int main(void)
     cout << endl;
 
     //insert s3 to words
-    copy(s3, s3 + 2, insert_iterator<std::vector<string> >(words, words.end()));
+    copy(s3, s3 + 2, insert_iterator<std::vector<string> >(words, words.begin()));
     for_each(words.begin(), words.end(), print);
     cout << endl;
     return 0;
