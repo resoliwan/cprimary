@@ -3,71 +3,62 @@
 #include <cstdlib>
 #include <ctime>
 
-using std::cout;
-using std::endl;
-using std::string;
-using std::cin;
-
 const int MAX = 3;
+const std::string words[MAX] = {
+    "ababaa",
+    "bcbcbb",
+    "abcccc"
+};
 
 int main(void)
 {
-    std::string words[MAX] = {
-        "ababaa",
-        "bcbcbb",
-        "abcccc"
-    };
-
+    using std::cout;
+    using std::endl;
+    using std::string;
+    using std::cin;
     std::srand(std::time(0));
 
-    string word = "------";
-    string badGuesses = "";
     while (true) {
         char answer;
         cout << "Will you play a word game? <y/n>?" << endl;
         cin >> answer;
         if (answer == 'y')
         {
-            int idx = std::rand() % MAX;
-            string target = words[idx];
+            string target = words[std::rand() % MAX];
+            int length = target.length();
+            int attCnt = 0;
+            string attempt(length, '-');
+            string badGuesses = "";
             cout << "Gussy my serect word. It has 6 letters," << endl;
             cout << "and you gusss one letter at a time. You get 6 wrong gussess." << endl;
             cout << "Target: " << target << endl;
-            for (int i = 0; i < 6; ++i) 
+            while (attCnt++ < length && attempt != target)
             {
-                cout << "Your word: " << word << endl;
+                cout << "Your word: " << attempt << endl;
                 cout << "Guess a letter: " << endl;
                 cin >> answer;
-                std::string::size_type occIdx = 0;
-                for (int i = 0; i < 6; ++i) 
+                int loc = 0;
+                loc = target.find(answer, loc);
+                if (loc == (int)string::npos) 
                 {
-                    occIdx = target.find(answer, occIdx);
-                    // cout << "occIdx: " << occIdx <<endl;
-                    if (occIdx == std::string::npos) 
+                    cout << "Bad choices: " << badGuesses << endl;
+                    badGuesses += answer;
+                }
+                else 
+                {
+                    cout << "Good guess!: " << endl;
+                    while(loc != (int)string::npos)
                     {
-                        badGuesses += answer;
-                        break;
-                    }
-                    else 
-                    {
-                        word[occIdx] = answer;
-                        occIdx++;
+                        attempt[loc] = answer;
+                        loc = target.find(answer, loc + 1);
                     }
                 }
 
-                if (word == target)
-                    break;
-
-                if (target.find(answer) == std::string::npos) 
-                    cout << "Bad choices: " << badGuesses << endl;
-                else 
-                    cout << "Good guess!: " << endl;
+                if (attempt == target)
+                    cout << "That's right!" << endl;
+                else
+                    cout << "Your are wrong!" << endl;
             }
-
-            if (word == target)
-                cout << "That's right!" << endl;
-            else
-                cout << "Your are wrong!" << endl;
         } 
         else
             break;
