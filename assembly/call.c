@@ -1,5 +1,5 @@
-long x=99;
-long y=199;
+long x = 99;
+long y = 199;
 
 long printf(char *, int);
 
