@@ -1,4 +1,7 @@
 #include <iostream>
+#include <algorithm>
+
+void show(const int) { };
 
 int main(void)
 {
@@ -11,6 +14,8 @@ int main(void)
     // for (int i = 0; i <= size; ++i) {
     //     cout << ar[i] << endl;
     // }
+    //
+    for_each(ar, ar + 2, show);
 
     return 0;
 }
